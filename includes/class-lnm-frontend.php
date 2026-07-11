@@ -11,6 +11,36 @@ class LNM_Frontend
     {
         add_filter('the_content', [$this, 'append_chapters_to_novel']);
         add_filter('the_content', [$this, 'add_chapter_navigation']);
+        add_filter('template_include', [$this, 'load_templates']);
+        add_filter('body_class', function ($classes) {
+            if (is_singular(['lnm_novel', 'lnm_chapter'])) {
+                $classes[] = 'lnm-active';
+            }
+            return $classes;
+        });
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_styles']);
+    }
+
+    public function load_templates($template)
+    {
+
+        if (is_singular('lnm_novel')) {
+            $custom = LNM_PATH . 'templates/single-novel.php';
+
+            if (file_exists($custom)) {
+                return $custom;
+            }
+        }
+
+        if (is_singular('lnm_chapter')) {
+            $custom = LNM_PATH . 'templates/single-chapter.php';
+
+            if (file_exists($custom)) {
+                return $custom;
+            }
+        }
+
+        return $template;
     }
 
     public function append_chapters_to_novel($content)
@@ -141,5 +171,17 @@ class LNM_Frontend
 <?php
 
         return $content . ob_get_clean();
+    }
+    public function enqueue_styles()
+    {
+
+        if (is_singular(['lnm_novel', 'lnm_chapter'])) {
+            wp_enqueue_style(
+                'lnm-frontend-css',
+                LNM_URL . 'assets/css/frontend.css',
+                [],
+                LNM_VERSION
+            );
+        }
     }
 }

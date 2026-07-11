@@ -1,0 +1,55 @@
+.lnm-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.lnm-reader {
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.lnm-chapter-title {
+    margin-bottom: 20px;
+}
+
+.lnm-chapter-content p {
+    margin-bottom: 1.5em;
+}
+
+.lnm-breadcrumb {
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.lnm-breadcrumb a {
+    text-decoration: none;
+    opacity: 0.7;
+}
+
+.lnm-breadcrumb a:hover {
+    opacity: 1;
+}
+
+.lnm-chapter-list {
+    margin-top: 20px;
+}
+
+.lnm-chapter-item {
+    margin-bottom: 10px;
+}
+
+.lnm-chapter-item a {
+    text-decoration: none;
+}
+
+.lnm-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.lnm-navigation a {
+    text-decoration: none;
+    font-weight: bold;
+}

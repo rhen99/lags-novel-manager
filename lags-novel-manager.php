@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: LAGS Novel Manager
  * Description: Manage novels and chapters with a structured system.
@@ -12,6 +13,7 @@ if (!defined('ABSPATH')) {
 
 define('LNM_PATH', plugin_dir_path(__FILE__));
 define('LNM_URL', plugin_dir_url(__FILE__));
+define('LNM_VERSION', '1.0.0');
 
 require_once LNM_PATH . 'includes/class-lnm-init.php';
 
