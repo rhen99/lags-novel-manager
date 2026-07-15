@@ -1,54 +1,105 @@
-# LAGS Novel Manager
+# 📚 LAGS Novel Manager
 
-A WordPress plugin that allows authors to manage and publish novels with structured chapters and a clean reading experience.
+A custom WordPress plugin for managing and reading novels with a built-in chapter editor.
 
-## ✨ Features
+---
 
-- Custom Post Types for **Novels** and **Chapters**
-- Structured relationship between novels and chapters
-- Chapter ordering system
-- Frontend display for novels and chapters
-- Clean and extensible architecture
+## 🚀 Features
 
-## 🚧 Roadmap
+### 🧩 Core
 
-### Phase 1
+- Custom Post Types:
+  - Novels
+  - Chapters
+- Chapter-to-novel relationship
+- Chapter numbering system
 
-- Register custom post types
-- Link chapters to novels
+---
 
-### Phase 2
+### 🌐 Frontend
 
-- Chapter ordering
-- Admin filtering and UI improvements
+- Novel page with chapter list
+- Chapter reader page
+- Next / Previous navigation
+- Custom templates
+- Styled reading experience
 
-### Phase 3
+---
 
-- Frontend templates for novels and chapters
-- Chapter navigation (Next / Previous)
+### 🛠️ Admin Editor (Custom UI)
 
-### Phase 4
+- Select a novel
+- View all chapters
+- Click to edit chapters
+- WYSIWYG editor (WordPress editor)
 
-- Word count tracking
-- Writing status system
+---
 
-### Future Ideas
+### ⚡ Advanced Editor Features
 
-- Drag & drop chapter sorting
-- Table of contents shortcode
-- Reading mode UI
-- Export (TXT / PDF)
+- Autosave (every 10 seconds)
+- Create new chapters instantly
+- Edit chapter title & content
+- Delete chapters
+- Drag & drop reordering
+- Real-time UI updates
+
+---
 
 ## 📦 Installation
 
-1. Upload the plugin to `/wp-content/plugins/lags-novel-manager`
-2. Activate the plugin from the WordPress dashboard
-3. Start creating novels and chapters
+1. Copy plugin folder into:
+   `/wp-content/plugins/`
 
-## 🧠 Concept
+2. Activate plugin in WordPress admin
 
-LAGS Novel Manager transforms WordPress into a structured writing platform, giving authors better control over long-form content like novels.
+3. Done ✅
 
-## 👤 Author
+---
 
-LAGS
+## 🧑‍💻 Usage
+
+### Create a Novel
+
+- Go to **Novels → Add New**
+
+### Add Chapters
+
+- Use:
+  - Default editor OR
+  - Custom Novel Editor page
+
+---
+
+### Use Custom Editor
+
+- Go to: **Novel Editor**
+- Select a novel
+- Manage chapters:
+  - Create
+  - Edit
+  - Reorder
+  - Delete
+
+---
+
+## 🧠 Future Improvements
+
+- Autosave debounce
+- Cover Image
+- Chapter search
+- Genres / taxonomy
+- Reader settings (dark mode, font size)
+- REST API support
+
+---
+
+## 📌 Notes
+
+This plugin was built as a learning + production-ready project to create a custom content system inside WordPress.
+
+---
+
+## 📄 License
+
+MIT

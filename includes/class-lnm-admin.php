@@ -11,8 +11,11 @@ class LNM_Admin
         add_action('admin_menu', [$this, 'register_menu']);
         add_action('wp_ajax_lnm_get_chapters', [$this, 'ajax_get_chapters']);
         add_action('wp_ajax_lnm_get_chapter', [$this, 'ajax_get_chapter']);
+        add_action('wp_ajax_lnm_reorder_chapters', [$this, 'ajax_reorder_chapters']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_ajax_lnm_save_chapter', [$this, 'ajax_save_chapter']);
+        add_action('wp_ajax_lnm_create_chapter', [$this, 'ajax_create_chapter']);
+        add_action('wp_ajax_lnm_delete_chapter', [$this, 'ajax_delete_chapter']);
     }
     public function register_menu()
     {
@@ -61,6 +64,9 @@ class LNM_Admin
 
                     <div class="lnm-sidebar">
                         <h3>Chapters</h3>
+                        <button id="lnm-new-chapter" class="button">
+                            + New Chapter
+                        </button>
                         <ul id="lnm-chapter-list">
                             <li>Select a novel</li>
                         </ul>
@@ -186,6 +192,97 @@ class LNM_Admin
 
         wp_send_json_success('Saved');
     }
+
+    public function ajax_reorder_chapters()
+    {
+
+        $order = json_decode(stripslashes($_POST['order'] ?? ''), true);
+
+        if (!$order || !is_array($order)) {
+            wp_send_json_error('Invalid data');
+        }
+
+        foreach ($order as $item) {
+
+            $chapter_id = intval($item['id']);
+            $number = intval($item['number']);
+
+            if ($chapter_id) {
+                update_post_meta($chapter_id, 'lnm_chapter_number', $number);
+            }
+        }
+
+        wp_send_json_success('Order saved');
+    }
+
+    public function ajax_create_chapter()
+    {
+
+        $novel_id = intval($_POST['novel_id'] ?? 0);
+
+        if (!$novel_id) {
+            wp_send_json_error('No novel selected');
+        }
+
+        // Get next chapter number
+        $chapters = get_posts([
+            'post_type' => 'lnm_chapter',
+            'numberposts' => -1,
+            'meta_key' => 'lnm_chapter_number',
+            'orderby' => 'meta_value_num',
+            'order' => 'DESC',
+            'meta_query' => [
+                [
+                    'key' => 'lnm_novel_id',
+                    'value' => $novel_id
+                ]
+            ]
+        ]);
+
+        $next_number = 1;
+
+        if ($chapters) {
+            $last = $chapters[0];
+            $last_number = get_post_meta($last->ID, 'lnm_chapter_number', true);
+            $next_number = intval($last_number) + 1;
+        }
+
+        // Create post
+        $chapter_id = wp_insert_post([
+            'post_type' => 'lnm_chapter',
+            'post_status' => 'publish',
+            'post_title' => 'New Chapter',
+            'post_content' => ''
+        ]);
+
+        // Save meta
+        update_post_meta($chapter_id, 'lnm_novel_id', $novel_id);
+        update_post_meta($chapter_id, 'lnm_chapter_number', $next_number);
+
+        wp_send_json_success([
+            'id' => $chapter_id,
+            'title' => 'New Chapter',
+            'number' => $next_number,
+            'content' => ''
+        ]);
+    }
+    public function ajax_delete_chapter()
+    {
+
+        $chapter_id = intval($_POST['chapter_id'] ?? 0);
+
+        if (!$chapter_id) {
+            wp_send_json_error('Invalid ID');
+        }
+
+        if (!current_user_can('delete_post', $chapter_id)) {
+            wp_send_json_error('Permission denied');
+        }
+
+        wp_delete_post($chapter_id, true);
+
+        wp_send_json_success('Deleted');
+    }
     public function enqueue_admin_assets($hook)
     {
 
@@ -196,6 +293,13 @@ class LNM_Admin
             LNM_URL . 'assets/js/admin.js',
             [],
             LNM_VERSION,
+            true
+        );
+        wp_enqueue_script(
+            'sortable-js',
+            'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js',
+            [],
+            null,
             true
         );
         wp_enqueue_style(
