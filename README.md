@@ -102,4 +102,12 @@ This plugin was built as a learning + production-ready project to create a custo
 
 ## 📄 License
 
-MIT
+## MIT
+
+## ✍️ Chapter Editor
+
+![Chapter Editor](screenshots/novel-editor.png)
+
+## Drag And Drop
+
+![Reorder](screenshots/reorder.png)
