@@ -39,6 +39,19 @@ class LNM_Frontend
                 return $custom;
             }
         }
+        if (is_post_type_archive('lnm_novel')) {
+            $custom = LNM_PATH . 'templates/archive-lnm_novel.php';
+            if (file_exists($custom)) {
+                return $custom;
+            }
+        }
+        if (is_search() && get_query_var('post_type') === 'lnm_novel') {
+            $custom = LNM_PATH . 'templates/archive-lnm_novel.php';
+            if (file_exists($custom)) {
+                return $custom;
+            }
+        }
+
 
         return $template;
     }
@@ -175,7 +188,7 @@ class LNM_Frontend
     public function enqueue_styles()
     {
 
-        if (is_singular(['lnm_novel', 'lnm_chapter'])) {
+        if (is_singular(['lnm_novel', 'lnm_chapter']) || is_post_type_archive('lnm_novel')) {
             wp_enqueue_style(
                 'lnm-frontend-css',
                 LNM_URL . 'assets/css/frontend.css',

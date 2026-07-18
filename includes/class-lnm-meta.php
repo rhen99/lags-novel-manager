@@ -12,7 +12,6 @@ class LNM_Meta
         add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
         add_action('save_post', [$this, 'save_meta']);
         add_action('wp_ajax_lnm_get_next_chapter_number', [$this, 'get_next_chapter_number']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
     }
 
     public function add_meta_boxes()
@@ -134,33 +133,5 @@ class LNM_Meta
         }
 
         wp_send_json_success($next_number);
-    }
-
-    public function enqueue_scripts($hook)
-    {
-
-        global $post;
-
-        if ($hook === 'post.php' || $hook === 'post-new.php') {
-            if (isset($post) && $post->post_type === 'lnm_chapter') {
-
-                wp_enqueue_script(
-                    'lnm-admin-js',
-                    LNM_URL . 'assets/js/admin.js',
-                    [],
-                    '1.0',
-                    true
-                );
-                wp_enqueue_style(
-                    'lnm-admin-css',
-                    LNM_URL . 'assets/css/admin.css',
-                    [],
-                    LNM_VERSION
-                );
-                wp_localize_script('lnm-admin-js', 'lnm_admin_ajax', [
-                    'ajax_url' => admin_url('admin-ajax.php')
-                ]);
-            }
-        }
     }
 }

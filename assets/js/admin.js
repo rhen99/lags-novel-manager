@@ -98,30 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Autofill Chapter Number
-  const novelToAdd = document.getElementById("lnm_novel_id");
-  const chapterInput = document.getElementById("lnm_chapter_number_input");
-
-  novelToAdd?.addEventListener("change", function () {
-    const novelId = this.value;
-
-    if (!novelId) return;
-
-    fetch(lnm_admin_ajax.ajax_url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `action=lnm_get_next_chapter_number&novel_id=${novelId}`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          chapterInput.value = data.data;
-        }
-      });
-  });
-
   const novelSelect = document.getElementById("lnm-novel-select");
   const chapterList = document.getElementById("lnm-chapter-list");
   if (!novelSelect || !chapterList) return;
